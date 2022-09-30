@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="jumbotron">
+    <h1>Device Inventory</h1>
+</div>
+
+
+{% if error_ips %}
+    <div class="col px-md-5">
+        {% for ip in error_ips %}
+        <li class="list-group-item list-group-item-danger"> <strong>{{ ip }}</strong> Could not be contacted, please manually check this device.</li>
+        {% endfor %}
+    </div>
+{% endif %}
+<br>
+<br>
+
+
+
+{% if all_devices %}
+    <div class="col px-md-5">
+    <table id="data" class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Hostname</th>
+                <th>Mgmt IP Address</th>
+                <th>SW Version</th>
+                <th>Model</th>
+                <th>OS Type</th>
+                <th>Chassis Serial</th>
+                <th>Uptime</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for row in all_devices %}
+            <tr>
+                <td> {{ row.id }}</td>
+                <td>{{ row.hostname }}</td>
+                <td>{{ row.ip }}</td>
+                <td>{{ row.sw_version }}</td>
+                <td>{{ row.model }}</td>
+                <td>{{ row.os_type }}</td>
+                <td>{{ row.chassis_sn }}</td>
+                <td>{{ row.uptime }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+{% endif %}
+
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+    $(document).ready(function () {
+      $('#data').DataTable({
+        columns: [
+          {orderable: true, searchable: false},
+          {orderable: true, searchable: true},
+          {orderable: false, searchable: true},
+          {orderable: false, searchable: true},
+          {orderable: true, searchable: true},
+          {orderable: true, searchable: true},
+          {orderable: false, searchable: true},
+          {orderable: false, searchable: false}],
+      });
+    });
+  </script>
+
+{% endblock %}
