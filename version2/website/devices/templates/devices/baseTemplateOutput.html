@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="jumbotron">
+    <h1>Device Base Template Creator</h1>
+</div>
+
+<div class='container'>
+    <div class="jumbotron">
+
+        <h2>Device Configuration</h2>
+        <ul>
+            <li>Device Type: {{ session['deviceType'] }}</li>
+            <li>OS Type: {{ session['os'] }}</li>
+            <li>Device IP: {{ session['ip'] }}</li>
+            <li>Device Subnet Mask: {{ session['subnet'] }}</li>
+            <li>Hostname: {{ session['hostname'] }}</li>
+            <li>Domain: {{ session['domainName'] }}</li>
+            <li>Management Interface: {{ session['mgmtInt'] }}</li>
+            <li>Default Route: {{ session['defaultRoute'] }}</li>
+            <li>Enable Password: {{ session['enablePass'] }}</li>
+        </ul>
+    </div>
+</div>
+
+<div class='container'>
+    <div class="jumbotron">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab"><h3>Base Template</h3></a>
+             </li>
+        </ul>
+
+        <div class="tab-pane" id="rawoutput">
+
+            {% if session['os'] == 'ios' %}
+                <h4>IOS Base Configuration</h4>
+            {% elif session['os'] == 'nexus' %}
+                <h4>Nexus Base Template</h4>
+            {% elif session['os'] == 'iosxe' %}
+                <h4>IOS-XE Base Template</h4>
+            {% endif %}
+
+            <br>
+            <code>
+            {% for element in config_list %}
+                    {{ element }}<br>
+            {% endfor %}
+            </code>
+
+    </div>
+
+    </div>
+</div>
+
+
+{% endblock %}

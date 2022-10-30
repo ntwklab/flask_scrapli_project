@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="jumbotron">
+    <h1>Device Inventory</h1>
+</div>
+
+
+<div class="row justify-content-between align-items-right col px-md-3">
+    <div class="col-lg-auto col px-md-5">
+        <a href="bg_get_info" id="info_button"><button class="btn btn-primary btn-lg">Refresh All Device Info</button></a>
+    </div>
+
+    {% if lastupdate %}
+        <div class="col-lg-auto">
+            <div class="alert alert-primary">
+            Last updated: <strong>{{ lastupdate }}</strong>
+        </div>
+    {% endif %}
+    
+
+    </div>
+ </div>
+
+ <br>
+ <br>
+
+
+
+{% if error_ips %}
+    <div class="col px-md-5">
+        {% for ip in error_ips %}
+        <li class="list-group-item list-group-item-danger"> <strong>{{ ip }}</strong> Could not be contacted, please manually check this device.</li>
+        {% endfor %}
+    </div>
+{% endif %}
+<br>
+<br>
+
+
+
+{% if all_devices %}
+    <div class="col px-md-5">
+    <table id="data" class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Hostname</th>
+                <th>Mgmt IP Address</th>
+                <th>SW Version</th>
+                <th>Model</th>
+                <th>OS Type</th>
+                <th>Chassis Serial</th>
+                <th>Uptime</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for row in all_devices %}
+            <tr>
+                <td> {{ row.id }}</td>
+                <td> <a href="{{ row.hostname }}">{{ row.hostname }}</a</td>
+                <td>{{ row.ip }}</td>
+                <td>{{ row.sw_version }}</td>
+                <td>{{ row.model }}</td>
+                <td>{{ row.os_type }}</td>
+                <td>{{ row.chassis_sn }}</td>
+                <td>{{ row.uptime }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+{% endif %}
+
+</div>
+<br>
+<br>
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+    $(document).ready(function () {
+      $('#data').DataTable({
+        columns: [
+          {orderable: true, searchable: false},
+          {orderable: true, searchable: true},
+          {orderable: false, searchable: true},
+          {orderable: false, searchable: true},
+          {orderable: true, searchable: true},
+          {orderable: true, searchable: true},
+          {orderable: false, searchable: true},
+          {orderable: false, searchable: false}],
+      });
+    });
+  </script>
+
+{% endblock %}
