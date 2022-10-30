@@ -237,7 +237,7 @@ def baseTemplate():
                         f"!\n"
                         f"crypto key generate rsa general-keys modulus 1024\n"
                         f"!\n"
-                        f"line vty 0  15\n"
+                        f"line vty 0  4\n"
                         f"password Stefan2020\n"
                         f"privilege level 15\n"
                         f"transport input ssh\n"
