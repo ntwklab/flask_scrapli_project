@@ -239,7 +239,6 @@ def baseTemplate():
                         f"!\n"
                         f"line vty 0  15\n"
                         f"password Stefan2020\n"
-                        f"login local\n"
                         f"privilege level 15\n"
                         f"transport input ssh\n"
                         f"!\n"
