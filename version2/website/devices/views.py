@@ -272,7 +272,8 @@ def baseTemplate():
                         f"ip route 0.0.0.0 0.0.0.0 {session['defaultRoute']}")
 
         if session['os'] == 'nexus':
-            config = (f"ip domain-name {session['domainName']}\n"
+            config = (f"hostname {session['hostname']}\n"
+                        f"ip domain-name {session['domainName']}\n"
                         f"crypto key generate rsa modulus 1024\n"
                         f"!\n"
                         f"interface {session['mgmtInt']}\n"
