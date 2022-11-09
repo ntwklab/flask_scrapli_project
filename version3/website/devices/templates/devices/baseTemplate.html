@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="jumbotron">
+    <h1>Device Base Template Creator</h1>
+</div>
+
+<div class='container'>
+    <div class="jumbotron">
+        <form method="POST">
+
+            {{ form.hidden_tag() }}
+            {{ form.deviceType.label }}{{ form.deviceType (class="form-check") }}
+            <br>
+            {{ form.os.label }}{{ form.os (class="form-check") }}
+            <div class="form-row">
+                <div class="col">
+                    {{ form.ip.label }}{{ form.ip  (class="form-control", placeholder="Enter management IP address") }}
+                    <br>
+                    {{ form.hostname.label }}{{ form.hostname  (class="form-control", placeholder="Enter hostname") }}
+                    <br>
+                    {{ form.mgmtInt.label }}{{ form.mgmtInt  (class="form-control", placeholder="e.g Management0, Ethernet2/4, vlan 100") }}
+                </div>
+                <div class="col">
+                    {{ form.subnet.label }}{{ form.subnet  (class="form-control", placeholder="Enter management subnet mask") }}
+                    <br>
+                    {{ form.domainName.label }}{{ form.domainName  (class="form-control", placeholder="Enter domain name e.g mycisco.lab") }}
+                    <br>
+                    {{ form.defaultRoute.label }}{{ form.defaultRoute  (class="form-control", type="text", placeholder="Enter default gateway") }}
+                </div>
+              </div>
+
+            <br>
+            {{ form.enablePass.label }}{{ form.enablePass  (class="form-control", type="password", placeholder="Enter enable password") }}
+            <br>
+            {{ form.submit(class="btn btn-primary") }}
+        </form>
+    </div>
+</div>
+
+
+</div>
+{% endblock %}

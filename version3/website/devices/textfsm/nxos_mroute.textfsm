@@ -1,0 +1,23 @@
+Value Filldown VRF_NAME (\S+)
+Value Required MULTICAST_SOURCE_IP (\*|(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\S\d+))
+Value Required MULTICAST_GROUP_IP (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\S\d+)
+Value Required UP_TIME (\S+?)
+Value Required INCOMING_INTERFACE (\S+)
+Value Required REVERSE_PATH_FORWARDING_NEIGHBOUR_IP (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})
+Value List OUTGOING_INTERFACE_COUNT (\S+)
+Value List OUTGOING_INTERFACE (\S+)
+Value List OUTGOING_MULTICAST_UP_TIME (\S+)
+
+
+Start
+  # First line
+  ^IP\s+Multicast\s+(?:Forwarding|Routing)\sTable\sfor\sVRF\s\"${VRF_NAME}\"
+  ^\((\*|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\S\d+),\s(\*|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\S\d+)\) -> Continue.Record
+  ^\(${MULTICAST_SOURCE_IP},\s${MULTICAST_GROUP_IP}\),\suptime:\s${UP_TIME}\,
+  ^\s+Incoming\sinterface:\s${INCOMING_INTERFACE},\sRPF\snbr:\s${REVERSE_PATH_FORWARDING_NEIGHBOUR_IP}
+  ^\s+Outgoing\s+interface\s+list:\s\(count:\s${OUTGOING_INTERFACE_COUNT}\)
+  ^\s+${OUTGOING_INTERFACE},\suptime:\s${OUTGOING_MULTICAST_UP_TIME}
+  # Capture time-stamp if vty line has command time-stamping turned on
+  ^Load\s+for\s+
+  ^Time\s+source\s+is
+  ^. -> Error

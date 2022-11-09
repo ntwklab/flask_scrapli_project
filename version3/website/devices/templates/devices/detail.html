@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="jumbotron">
+    <h1>{{ hostname }} Details</h1>
+</div>
+
+
+<div class="row justify-content-between align-items-right col px-md-3">
+    <div class="col-lg-auto col px-md-5">
+        <a href="details_{{hostname}}" id="info_button"><button class="btn btn-primary btn-lg">Refresh Single Device Details</button></a>
+        <div class="col-lg-auto">
+            <div id="f5_info" class="row col-lg-auto badge badge-info"></div>
+        </div>
+    </div>
+    <div class="col-lg-auto">
+       <div class="alert alert-primary">
+          Last updated: <strong>{{ lastupdate }}</strong>
+       </div>
+    </div>
+ </div>
+
+ <br>
+ <br>
+
+
+
+
+<div class="container">
+    <div class="jumbotron">
+       <ul class="nav nav-tabs">
+          <li class="nav-item">
+             <a class="nav-link active" data-toggle="tab" href="#quickstats">Basic Info</a>
+          </li>
+          <li class="nav-item">
+             <a class="nav-link" data-toggle="tab" href="#portdetail">Port Info</a>
+          </li>
+          <li class="nav-item">
+             <a class="nav-link" data-toggle="tab" href="#rawoutput">"Show Run" Raw Output</a>
+          </li>
+       </ul>
+       
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane active" id="quickstats">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <br>
+                        <p><strong>Hostname</strong> {{ device_info[0][1] }}</p>
+                        <p><strong>Model</strong> {{ device_info[0][4] }}</p>
+                        <p><strong>Software Version:</strong> {{ device_info[0][3] }}</p>
+                        <p><strong>OS Type:</strong> {{device_info[0][5] }}</p>
+                    </div>
+                    <div class="col-lg-6">
+                        <br>
+                        <p><strong>Management IP:</strong> {{device_info[0][2] }}</p>
+                        <p><strong>Serial:</strong> {{device_info[0][6] }}</p>
+                        <p><strong>Uptime:</strong> {{device_info[0][7] }}</p>
+                    </div>
+                </div>
+            </div>
+        
+ 
+            <div class="tab-pane" id="portdetail">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <br>
+                        {% if device_details == "Empty" %}
+                            <p> <strong>Total Physical Ports: </strong>Refresh Data</p>
+                            <p><strong>Total VLAN Interfaces: </strong>Refresh Data</p>
+                            <p><strong>Ports Shutdown: </strong>Refresh Data</p>
+                            <p><strong>Ports Up (Inc SVIs): </strong>Refresh Data</p>
+                        {% else%}
+                            <p> <strong>Total Physical Ports:</strong> {{device_details[0][4] }}</p>
+                            <p><strong>Total VLAN Interfaces:</strong> {{ device_details[0][5] }}</p>
+                            <p><strong>Ports Shutdown:</strong> {{ device_details[0][6] }}</p>
+                            <p><strong>Ports Up (Inc SVIs):</strong> {{ device_details[0][7] }}</p>
+                        {% endif %}       
+                    </div>
+                </div>
+            </div>
+
+       
+            {% if show_run %}
+
+                <div class="tab-pane" id="rawoutput">
+                    <br>
+                    <code>
+                    <br>
+                    {% if show_run == "No Entry found, refresh data" %}
+                        <p>{{ show_run }}</p>
+                    {% else %}
+                        {% for line in show_run %}
+                            {{ line }}<br>
+                        {% endfor %}
+                    {% endif %}
+                    </code>
+                </div>
+
+            {% else %}
+            
+                <div class="tab-pane" id="rawoutput">
+                    <div class="row justify-content-between align-items-right col px-md-3">
+
+                        <br>
+                        <br>
+
+                        <div class="col-lg-auto"></div>
+                        <div class="col-lg-auto">
+                           <div class="alert alert-primary">
+                              Last updated: <strong>{{ lastupdate }}</strong>
+                           </div>
+                        </div>
+                     </div>
+
+
+                    <br>
+                    <code>
+                    <br>
+                    <p>No show run yet. Please press refresh button</p>
+                    </code>
+                </div>
+
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

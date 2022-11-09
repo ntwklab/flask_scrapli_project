@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="jumbotron">
+    <h1>Multicast Details</h1>
+</div>
+
+ <br>
+ <br>
+
+<div class="container">
+    <div class="jumbotron">
+       <ul class="nav nav-tabs">
+          <li class="nav-item">
+             <a class="nav-link active" data-toggle="tab" href="#quickstats">Multicast Basics</a>
+          </li>
+          <li class="nav-item">
+             <a class="nav-link" data-toggle="tab" href="#portdetail">Multicast Details</a>
+          </li>
+          <li class="nav-item">
+             <a class="nav-link" data-toggle="tab" href="#rawoutput">"Show ip mroute" Raw Output</a>
+          </li>
+       </ul>
+       
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane active" id="quickstats">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <br>
+                        {% for dict_item in parsed_output %}
+                            {% for hostname, value in dict_item.items() %}
+                                <br>
+                                <p><strong>Hostname: </strong> {{ hostname }}</p>
+                                {% for i in dict_item[hostname] %}
+                                    <p><strong>Multicast Groups: </strong> {{ i['multicast_group_ip'] }}</p>
+                                {% endfor %}     
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                    <div class="col-lg-6">
+                        <br>
+                    </div>
+                </div>
+            </div>
+        
+ 
+            <div class="tab-pane" id="portdetail">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <br>
+                        {% for dict_item in parsed_output %}
+                            {% for hostname, value in dict_item.items() %}
+                                <br>
+                                <p><strong>Hostname: </strong> {{ hostname }}</p>
+     
+                                {% for i in dict_item[hostname] %}
+                                    <p><strong>Multicast Groups: </strong> {{ i['multicast_group_ip'] }}
+                                        <br><strong>Uptime: </strong>  {{ i['up_time'] }}
+                                        <br><strong>Incoming Interface: </strong>  {{ i['incoming_interface'] }}
+                                        <br><strong>RPF Neighbour IP: </strong>  {{ i['reverse_path_forwarding_neighbour_ip'] }}
+
+                                        {% if i['outgoing_interface'] == [] %}
+                                            <br><strong>Outgoing Interface: </strong>  No Interfaces 
+                                        {% else %}
+                                            <br><strong>Outgoing Interface: </strong>  {{ i['outgoing_interface'] }} 
+                                        {% endif %}
+                                    </p>
+                                {% endfor %}     
+
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane" id="rawoutput">
+                <br>
+                {% for key,value in show_output_dict.items() %}
+                    <br><strong>{{ key }}</strong><br>
+                    <code>
+                    {% for element in value %}
+                            {{ element }}<br>
+                    {% endfor %}
+                    </code>
+                {% endfor %}
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

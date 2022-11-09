@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="jumbotron">
+    <h1>Check Multicast</h1>
+</div>
+
+<div class='container'>
+    <div class="jumbotron">
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <div class="form-floating"></div>
+            {{ form.ip.label }} {{ form.ip(class="form-control", placeholder="1.1.1.1, 2.2.2.2", id="floatingTextarea2", style="height: 100px") }}
+            <br>
+            {{ form.submit(class="btn btn-primary") }}
+
+        </form>
+    </div>
+</div>
+
+
+</div>
+{% endblock %}
